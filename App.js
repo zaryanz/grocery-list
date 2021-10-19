@@ -9,10 +9,22 @@ import {
   Divider,
   Input,
   Button,
+  Icon,
 } from '@ui-kitten/components';
 
 export default App = () => {
   const [data, setData] = useState(['Milk', 'Bottled Water']);
+  const randomList = [
+    'Tomato sauce',
+    'strawberries',
+    'raspberries',
+    'broccoli',
+    'mustard sauce',
+    'waffles',
+    'tofu',
+    'cheese',
+    'ham',
+  ];
   const [value, setValue] = useState('');
   const [query, setQuery] = useState('');
 
@@ -28,11 +40,17 @@ export default App = () => {
     });
   };
 
-  const addToList = () => {
+  const addToList = val => {
     const dataCp = [...data];
-    dataCp.push(value);
+    dataCp.push(val);
     setData(dataCp);
     setValue('');
+  };
+
+  const addRandomToList = () => {
+    const randomElement =
+      randomList[Math.floor(Math.random() * randomList.length)];
+    addToList(randomElement);
   };
 
   const filteredPosts = filterPosts(query, data);
@@ -62,8 +80,11 @@ export default App = () => {
           value={value}
           onChangeText={nextValue => setValue(nextValue)}
         />
-        <Button style={{marginTop: 6}} onPress={addToList}>
+        <Button style={{marginTop: 6}} onPress={() => addToList(value)}>
           Add
+        </Button>
+        <Button style={{marginTop: 6}} onPress={addRandomToList}>
+          Add Random
         </Button>
       </View>
     </ApplicationProvider>
