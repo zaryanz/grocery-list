@@ -14,6 +14,19 @@ import {
 export default App = () => {
   const [data, setData] = useState(['Milk', 'Bottled Water']);
   const [value, setValue] = useState('');
+  const [query, setQuery] = useState('');
+
+  const filterPosts = (query, data) => {
+    if (!query) {
+      return data;
+    }
+
+    return data.filter(post => {
+      const postName = post.toLowerCase();
+      query = query.toLowerCase();
+      return postName.includes(query);
+    });
+  };
 
   const addToList = () => {
     const dataCp = [...data];
@@ -22,22 +35,30 @@ export default App = () => {
     setValue('');
   };
 
+  const filteredPosts = filterPosts(query, data);
   const renderItem = ({item, index}) => <ListItem title={item} key={index} />;
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <Text style={styles.text} category="h4">
         Grocery List
       </Text>
-      <List
-        style={styles.container}
-        data={data}
-        renderItem={renderItem}
-        ItemSeparatorComponent={Divider}
-      />
+      <View style={styles.mainContainer}>
+        <Input
+          style={styles.search}
+          placeholder="Search..."
+          value={query}
+          onChangeText={nextValue => setQuery(nextValue)}
+        />
+        <List
+          style={styles.container}
+          data={filteredPosts}
+          renderItem={renderItem}
+          ItemSeparatorComponent={Divider}
+        />
+      </View>
       <View style={styles.addContainer}>
         <Input
-          style={styles.input}
-          placeholder="Place your Text"
+          placeholder="Enter a product name"
           value={value}
           onChangeText={nextValue => setValue(nextValue)}
         />
@@ -50,15 +71,19 @@ export default App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // maxHeight: 100,
+  mainContainer: {
+    marginHorizontal: 10,
   },
   text: {
     margin: 2,
     alignSelf: 'center',
   },
   addContainer: {
+    marginTop: 20,
     paddingHorizontal: 15,
     flexDirection: 'column',
+  },
+  search: {
+    marginVertical: 5,
   },
 });
