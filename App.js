@@ -80,10 +80,10 @@ export default App = () => {
           value={value}
           onChangeText={nextValue => setValue(nextValue)}
         />
-        <Button style={{marginTop: 6}} onPress={() => addToList(value)}>
+        <Button style={styles.button} onPress={() => addToList(value)}>
           Add
         </Button>
-        <Button style={{marginTop: 6}} onPress={addRandomToList}>
+        <Button style={styles.button} onPress={addRandomToList}>
           Add Random
         </Button>
       </View>
@@ -106,5 +106,8 @@ const styles = StyleSheet.create({
   },
   search: {
     marginVertical: 5,
+  },
+  button: {
+    marginTop: 6,
   },
 });
